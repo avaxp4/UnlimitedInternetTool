@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دليل الحصول على مفتاح API</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+    body {
+      font-family: 'Tajawal', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white flex flex-col items-center justify-between min-h-screen p-4 transition-colors duration-300">
+
+  <main class="w-full max-w-2xl">
+    <!-- Header: زر تبديل الوضع -->
+    <header class="w-full flex justify-end mb-4">
+        <button id="theme-toggle-btn" class="text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none rounded-lg text-sm p-2.5 transition-colors duration-200">
+            <i id="theme-toggle-sun-icon" class="fa-solid fa-sun text-xl hidden"></i>
+            <i id="theme-toggle-moon-icon" class="fa-solid fa-moon text-xl hidden"></i>
+        </button>
+    </header>
+
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700">
+      
+      <div class="text-center mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-500">
+          <i class="fa-solid fa-book-open"></i> دليل الحصول على مفتاح API
+        </h1>
+        <p class="text-gray-500 dark:text-gray-400 mt-2">اتبع هذه الخطوات البسيطة لتفعيل المولّد في أقل من دقيقة.</p>
+      </div>
+
+      <div class="mt-6">
+        <ol class="space-y-6">
+          <li class="flex items-start">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg">1</div>
+            <div class="mr-4">
+              <h3 class="font-bold text-lg text-gray-900 dark:text-gray-100">الانتقال إلى Google AI Studio</h3>
+              <p class="text-gray-500 dark:text-gray-400">انقر على الرابط التالي للذهاب مباشرةً إلى صفحة إنشاء مفاتيح API.</p>
+              <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200">
+                <i class="fa-solid fa-arrow-up-right-from-square ml-2"></i>
+                اذهب إلى صفحة مفاتيح API
+              </a>
+            </div>
+          </li>
+          <li class="flex items-start">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg">2</div>
+            <div class="mr-4">
+              <h3 class="font-bold text-lg text-gray-900 dark:text-gray-100">إنشاء مفتاح جديد</h3>
+              <p class="text-gray-500 dark:text-gray-400">في الصفحة التي ستفتح، انقر على زر <strong class="text-blue-500 dark:text-blue-400">"Create API key"</strong>.</p>
+            </div>
+          </li>
+          <li class="flex items-start">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg">3</div>
+            <div class="mr-4">
+              <h3 class="font-bold text-lg text-gray-900 dark:text-gray-100">نسخ المفتاح</h3>
+              <p class="text-gray-500 dark:text-gray-400">فورًا، سيظهر لك مفتاحك السري. انقر على أيقونة النسخ <i class="fa-solid fa-copy text-gray-400"></i> بجانبه.</p>
+            </div>
+          </li>
+          <li class="flex items-start">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg">4</div>
+            <div class="mr-4">
+              <h3 class="font-bold text-lg text-gray-900 dark:text-gray-100">لصق المفتاح والعودة</h3>
+              <p class="text-gray-500 dark:text-gray-400">ارجع إلى صفحة المولّد، والصق المفتاح في الحقل المخصص له.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <div class="mt-8 p-4 bg-yellow-100 dark:bg-yellow-900/50 border-r-4 border-yellow-500 rounded-l-lg flex items-center">
+        <i class="fa-solid fa-triangle-exclamation text-yellow-500 dark:text-yellow-400 text-xl"></i>
+        <div class="mr-3">
+          <h4 class="font-bold text-yellow-800 dark:text-yellow-300">مهم جدًا</h4>
+          <p class="text-sm text-yellow-700 dark:text-yellow-200">مفتاح الـ API الخاص بك سري جدًا. لا تشاركه مع أي شخص أبدًا.</p>
+        </div>
+      </div>
+      
+      <div class="mt-8 text-center">
+        <a href="index.html" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 text-lg">
+          <i class="fa-solid fa-arrow-left ml-2"></i>
+          العودة إلى المولّد
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="w-full text-center p-4 mt-8">
+    <p class="text-gray-500 dark:text-gray-400 text-sm">
+      جميع الحقوق محفوظة © <span id="year"></span> | عبدالرحمن عبد الكريم - حملة <span class="font-bold text-gray-600 dark:text-gray-400">#انترنت_غير_محدود_في_مصر</span>
+    </p>
+  </footer>
+  
+  <script src="js\theme-toggle.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

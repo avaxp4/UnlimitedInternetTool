@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="light"> <!-- البداية بالوضع النهاري افتراضيًا -->
+<html lang="ar" dir="rtl" class="light"> 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
   <script>
-    // تفعيل الوضع الليلي بناءً على Tailwind CSS class strategy
+
     tailwind.config = {
       darkMode: 'class',
     }
@@ -28,7 +28,7 @@
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white flex flex-col items-center justify-between min-h-screen p-4 transition-colors duration-300">
 
   <main class="w-full max-w-2xl">
-    <!-- Header: زر تبديل الوضع -->
+    >
     <header class="w-full flex justify-end mb-4">
         <button id="theme-toggle-btn" class="text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none rounded-lg text-sm p-2.5 transition-colors duration-200">
             <i id="theme-toggle-sun-icon" class="fa-solid fa-sun text-xl hidden"></i>
@@ -52,7 +52,15 @@
           <input type="password" id="apiKey" class="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-3.5 pr-10" placeholder="أدخل مفتاحك السري هنا">
         </div>
       </div>
-      <div class="mb-4">
+
+
+      <div class="text-left mb-6 -mt-4">
+        <a href="docs.html" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 hover:underline">
+          <i class="fa-solid fa-circle-question ml-1"></i>
+          كيف أحصل على مفتاح API؟
+        </a>
+      </div>
+ <div class="mb-4">
   <label for="hashtag" class="block mb-1 font-medium">اختر الهاشتاج:</label>
   <select id="hashtag" class="w-full rounded-lg border border-gray-300 dark:border-gray-600 p-2 bg-white dark:bg-gray-700 text-sm">
     <option value="#شخلل_عشان_تجدد_الباقة">شخلل_عشان_تجدد_الباقة</option>
@@ -62,14 +70,6 @@
   </select>
 </div>
 
-      <div class="text-left mb-6 -mt-4">
-        <a href="docs.html" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 hover:underline">
-          <i class="fa-solid fa-circle-question ml-1"></i>
-          كيف أحصل على مفتاح API؟
-        </a>
-      </div>
-
-      <!-- تم حذف onclick من الأزرار -->
       <div id="actions" class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <button id="generateBtn" class="col-span-1 md:col-span-3 bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center text-lg">
           <i class="fa-solid fa-wand-magic-sparkles ml-2"></i>
@@ -107,7 +107,7 @@
     </p>
   </footer>
   
-  <!-- تم استبدال الكود المباشر بروابط للملفات الخارجية -->
+ 
   <script src="js/theme-toggle.js"></script>
   <script type="module" src="js/main.js"></script>
 

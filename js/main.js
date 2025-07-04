@@ -1,11 +1,11 @@
 
 import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 const hashtagSelect = document.getElementById("hashtag");
+
 const apiKeyInput = document.getElementById("apiKey");
 const generateBtn = document.getElementById("generateBtn");
 const rewriteBtn = document.getElementById("rewriteBtn");
 const copyBtn = document.getElementById("copyBtn");
-const toneSelect = document.getElementById("tone");
 const loader = document.getElementById("loader");
 const resultWrapper = document.getElementById("resultWrapper");
 const resultDiv = document.getElementById("result");
@@ -16,28 +16,6 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
 function getPrompt() {
   const selectedHashtag = hashtagSelect.value;
-  const selectedTone = toneSelect.value;
-
-  let toneInstructions = "";
-
-  switch (selectedTone) {
-    case "funny":
-      toneInstructions = "- خليك خفيف الدم، بس بلاش نكت رخيصة أو استظراف زايد. خلي السخرية لاذعة بس ذكية.";
-      break;
-    case "angry":
-      toneInstructions = "- استخدم نبرة غاضبة، كأنك بتنفجر من القهر. بس من غير شتيمة أو سب.";
-      break;
-    case "legal":
-      toneInstructions = "- استخدم أسلوب قانوني أو حقوقي بسيط: زي المطالبة بالحق، خرق العقد، استغلال تجاري. خليك واضح، بس بدون مبالغة.";
-      break;
-    case "formal":
-      toneInstructions = "- اكتب بلغة رسمية ومحايدة كأنك بتكتب شكوى مكتوبة بعناية. بدون سخرية أو تهكم.";
-      break;
-    case "default":
-    default:
-      toneInstructions = "- خليك ساخر، واقعي، متضايق... زي الناس الغلابة على تويتر.";
-      break;
-  }
 
   return `
 اكتبلي تويتة واحدة بالعربي المصري عن حملة "إنترنت غير محدود في مصر".
@@ -49,9 +27,8 @@ function getPrompt() {
 - اكتب كأنك بتفضفض من قلبك على تويتر، مش بتكتب منشور لإعلان.
 - خليها سريعة، ساخرة، غاضبة، صادقة... بس مش نكتة ولا تهريج.
 - أوصف معاناة حقيقية بتحصل كل يوم: النت بيخلص وإنت لسه ما فتحتش الصفحة، الباقة بتطير، كل شوية لازم تدفع تاني.
-- استخدم تشبيه واحد جديد وذكي. مش لازم يكون مضحك، بس لازم يكون بيشرح القهر. تجنب التشبيهات القديمة زي "بتخلص أسرع من المرتب".
-
-${toneInstructions}
+- استخدم تشبيه واحد جديد وذكي. مش لازم يكون مضحك، بس لازم يكون بيشرح القهر. تجنب التشبيهات القديمة زي "بتخلص أسرع من المرتب" أو "بتتبخر".
+- ما تطولش، خليك مركز، والتغريدة كلها ما تعديش 500 حرف.
 
 📛 ممنوع:
 

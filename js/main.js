@@ -1,26 +1,25 @@
-
 import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
-const hashtagSelect = document.getElementById("hashtag");
 
+const hashtagSelect = document.getElementById("hashtag");
 const apiKeyInput = document.getElementById("apiKey");
 const generateBtn = document.getElementById("generateBtn");
+const resultActions = document.getElementById("result-actions");
 const rewriteBtn = document.getElementById("rewriteBtn");
 const copyBtn = document.getElementById("copyBtn");
+const shareTwitterBtn = document.getElementById("shareTwitterBtn");
+const shareFacebookBtn = document.getElementById("shareFacebookBtn");
 const loader = document.getElementById("loader");
 const resultWrapper = document.getElementById("resultWrapper");
 const resultDiv = document.getElementById("result");
 
-
 document.getElementById('year').textContent = new Date().getFullYear();
-
 
 function getPrompt() {
   const selectedHashtag = hashtagSelect.value;
-
   return `
 اكتبلي تويتة واحدة بالعربي المصري عن حملة "إنترنت غير محدود في مصر".
 
-🎯 القواعد:
+القواعد:
 
 - باللهجة العامية الطبيعية بتاعة الناس، مش لازم فصحى خالص.
 - بلاش أسلوب مؤسسات، حملات، مبادرات، أو أي حاجة شكلها رسمي أو ركيك.
@@ -30,14 +29,14 @@ function getPrompt() {
 - استخدم تشبيه واحد جديد وذكي. مش لازم يكون مضحك، بس لازم يكون بيشرح القهر. تجنب التشبيهات القديمة زي "بتخلص أسرع من المرتب" أو "بتتبخر".
 - ما تطولش، خليك مركز، والتغريدة كلها ما تعديش 500 حرف.
 
-📛 ممنوع:
+ ممنوع:
 
 - أي إيموجي، صور، روابط، علامات تنصيص.
 - أي كلام عن "تحسين الخدمة"، "حقوق المواطن"، أو أي لغة بتاعة نشرات الأخبار.
 - أي تلميح إن اللي كاتب الكلام هو ذكاء صناعي.
 - أي كلام مكرر أو منسوخ أو بيتكرر في سياق التغريدات المعتادة.
 
-🚫 ملحوظة مهمة جدًا:
+ملحوظة مهمة جدًا:
 
 - انهي المنشور بالسطر ده فقط:
 ${selectedHashtag}
@@ -48,7 +47,6 @@ ${selectedHashtag}
   `;
 }
 
-
 async function generatePost() {
     const apiKey = apiKeyInput.value.trim();
     if (!apiKey) {
@@ -57,40 +55,34 @@ async function generatePost() {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    generateBtn.style.display = "none";
-    rewriteBtn.style.display = "none";
-    copyBtn.style.display = "none";
+    generateBtn.style.display = "flex"; 
+    resultActions.style.display = "none";
     resultWrapper.style.display = "none";
     loader.style.display = "block";
 
     try {
         const result = await model.generateContent(getPrompt());
-
-
         const response = await result.response;
         const text = await response.text();
-        
 
         resultDiv.innerText = text.trim();
         resultDiv.classList.remove('text-red-500', 'dark:text-red-400');
         loader.style.display = "none";
         resultWrapper.style.display = "block";
-        rewriteBtn.style.display = "flex";
-        copyBtn.style.display = "flex";
+        resultActions.style.display = "grid"; 
         
     } catch (error) {
         console.error("API Error:", error);
-
+        
         resultDiv.innerText = `❌ حدث خطأ:\n\n${error.message}\n\nتأكد من صحة مفتاح API وصلاحياته.`;
         resultDiv.classList.add('text-red-500', 'dark:text-red-400');
         loader.style.display = "none";
         resultWrapper.style.display = "block";
-        generateBtn.style.display = "flex"; 
+        resultActions.style.display = "none"; 
     }
 }
-
 
 function copyPost() {
     const resultText = resultDiv.innerText;
@@ -111,7 +103,21 @@ function copyPost() {
     });
 }
 
+function shareToTwitter() {
+    const postText = resultDiv.innerText;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(postText)}`;
+    window.open(twitterUrl, '_blank');
+}
+
+function shareToFacebook() {
+    const postText = resultDiv.innerText;
+    // Facebook uses the 'quote' parameter for text and 'u' for the URL to be shared.
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(postText)}`;
+    window.open(facebookUrl, '_blank');
+}
 
 generateBtn.addEventListener('click', generatePost);
 rewriteBtn.addEventListener('click', generatePost); 
 copyBtn.addEventListener('click', copyPost);
+shareTwitterBtn.addEventListener('click', shareToTwitter);
+shareFacebookBtn.addEventListener('click', shareToFacebook);

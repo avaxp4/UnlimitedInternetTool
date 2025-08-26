@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" class="light">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,18 +20,40 @@
     body {
       font-family: 'Tajawal', sans-serif;
     }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
   </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white flex flex-col items-center justify-between min-h-screen p-4 transition-colors duration-300">
+
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white flex flex-col items-center min-h-screen p-4 pt-24 transition-colors duration-300">
+
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center space-x-4">
+          <a href="index.html" class="text-xl font-bold text-blue-600 dark:text-blue-500">
+            <i class="fa-solid fa-bolt"></i>
+            المولّد
+          </a>
+          <nav class="hidden md:flex items-center space-x-reverse space-x-4">
+            <a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">الصفحة الرئيسية</a>
+            <a href="docs.html" class="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 px-3 py-2 rounded-md text-sm font-bold">الوثائق</a>
+          </nav>
+        </div>
+        <div class="flex items-center">
+          <button id="theme-toggle-btn" class="text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none rounded-lg text-sm p-2.5 transition-colors duration-200">
+              <i id="theme-toggle-sun-icon" class="fa-solid fa-sun text-xl hidden"></i>
+              <i id="theme-toggle-moon-icon" class="fa-solid fa-moon text-xl hidden"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
 
   <main class="w-full max-w-2xl">
-    <header class="w-full flex justify-end mb-4">
-        <button id="theme-toggle-btn" class="text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none rounded-lg text-sm p-2.5 transition-colors duration-200">
-            <i id="theme-toggle-sun-icon" class="fa-solid fa-sun text-xl hidden"></i>
-            <i id="theme-toggle-moon-icon" class="fa-solid fa-moon text-xl hidden"></i>
-        </button>
-    </header>
-
     <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700">
       
       <div class="text-center mb-8">
@@ -57,7 +80,7 @@
             <div class="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-lg">2</div>
             <div class="mr-4">
               <h3 class="font-bold text-lg text-gray-900 dark:text-gray-100">إنشاء مفتاح جديد</h3>
-              <p class="text-gray-500 dark:text-gray-400">في الصفحة التي ستفتح، انقر على زر <strong class="text-blue-500 dark:text-blue-400">"Get API key"</strong>.</p>
+              <p class="text-gray-500 dark:text-gray-400">في الصفحة التي ستفتح، انقر على زر <strong class="text-blue-500 dark:text-blue-400">"Create API key in new project"</strong>.</p>
             </div>
           </li>
           <li class="flex items-start">
@@ -84,9 +107,172 @@
           <p class="text-sm text-yellow-700 dark:text-yellow-200">مفتاح الـ API الخاص بك سري جدًا. لا تشاركه مع أي شخص أبدًا.</p>
         </div>
       </div>
+
       
-      <div class="mt-8 text-center">
-        <a href="index.html" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 text-lg">
+
+      
+      <!-- FAQ -->
+      <div class="mt-12" id="faq">
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">
+            <i class="fa-solid fa-circle-question text-blue-500"></i>
+            مشاكل وحلول شائعة
+          </h2>
+          <p class="text-gray-500 dark:text-gray-400 mt-1">أسئلة قد تواجهك أثناء استخدام الأداة.</p>
+        </div>
+        
+        <div class="space-y-4" id="accordion-container">
+          <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
+            <button class="accordion-toggle w-full flex justify-between items-center p-4 text-right">
+              <span class="font-semibold text-lg text-gray-700 dark:text-gray-300">لماذا يظهر لي خطأ عند استخدام المفتاح؟</span>
+              <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="p-4 border-t border-gray-200 dark:border-gray-700 text-green-700 dark:text-green-400">
+                <p>تأكد من نسخ المفتاح بالكامل بدون أي مسافات زائدة في البداية أو النهاية. إذا استمرت المشكلة، قد يكون هناك ضغط على خوادم Google، حاول مجددًا بعد فترة قصيرة.</p>
+              </div>
+            </div>
+          </div>
+          <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
+            <button class="accordion-toggle w-full flex justify-between items-center p-4 text-right">
+              <span class="font-semibold text-lg text-gray-700 dark:text-gray-300">هل استخدام مفتاح API آمن؟</span>
+              <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="p-4 border-t border-gray-200 dark:border-gray-700 text-green-700 dark:text-green-400">
+                <p>نعم، إنه آمن تمامًا. يتم حفظ مفتاحك في متصفحك فقط ولا يتم إرساله أو تخزينه في أي مكان آخر. عند إغلاق المتصفح، يتم حذفه تلقائيًا.</p>
+              </div>
+            </div>
+          </div>
+          <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
+            <button class="accordion-toggle w-full flex justify-between items-center p-4 text-right">
+              <span class="font-semibold text-lg text-gray-700 dark:text-gray-300">هل الخدمة مجانية؟</span>
+              <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+            </button>
+            <div class="accordion-content">
+               <div class="p-4 border-t border-gray-200 dark:border-gray-700 text-green-700 dark:text-green-400">
+                <p>نعم، يوجد باقة مجانية بسعة استخدام كبيرة جدًا ومناسبة للاستخدام الشخصي والمطورين. لن تحتاج إلى الدفع إلا في حالة الاستخدام التجاري الضخم.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
+            <button class="accordion-toggle w-full flex justify-between items-center p-4 text-right">
+              <span class="font-semibold text-lg text-gray-700 dark:text-gray-300">ملاحظة حول استخدام النموذج الأفضل</span>
+              <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+            </button>
+            <div class="accordion-content">
+               <div class="p-4 border-t border-gray-200 dark:border-gray-700 text-green-700 dark:text-green-400">
+                <p>يوجد حاليا مشاكل في استخدام هذا الوضع ونسعى لتحسينه بأسرع وقت</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
+            <button class="accordion-toggle w-full flex justify-between items-center p-4 text-right">
+              <span class="font-semibold text-lg text-gray-700 dark:text-gray-300">لقد استنفذت حدود الاستخدام لديك اليوم</span>
+              <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-300"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="p-4 border-t border-gray-200 dark:border-gray-700 text-green-700 dark:text-green-400">
+                <p>
+                  يبدو أنك قمت بإرسال الكثير من الطلبات، راجع 
+                  <a href="#usage-limits" class="text-blue-600 dark:text-blue-400 font-semibold">قسم حدود الاستخدام</a> 
+                  لمعرفة حدود الاستخدام في الدقيقة واليوم
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- Comparison -->
+      <div id="comparison" class="mt-12">
+  <div class="text-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">
+      <i class="fa-solid fa-scale-balanced text-blue-500"></i>
+      مقارنة بين الوضعين
+    </h2>
+    <p class="text-gray-500 dark:text-gray-400 mt-1">
+      مقارنة موجزة بين الوضع <span class="font-semibold text-green-600 dark:text-green-400">الأفضل</span> 
+      و <span class="font-semibold text-yellow-600 dark:text-yellow-400">الأسرع</span>.
+    </p>
+  </div>
+  <div class="overflow-x-auto" id="comparison-table">
+    <table class="w-full border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+      <thead class="bg-gray-100 dark:bg-gray-800">
+        <tr class="text-right">
+          <th class="p-3 text-gray-700 dark:text-gray-300">وجه المقارنة</th>
+          <th class="p-3 text-gray-700 dark:text-gray-300">الأفضل</th>
+          <th class="p-3 text-gray-700 dark:text-gray-300">الأسرع</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="border-t border-gray-200 dark:border-gray-700">
+          <td class="p-3 font-semibold text-gray-800 dark:text-gray-200">السرعة</td>
+          <td class="p-3 text-gray-600 dark:text-gray-300">أبطأ نسبيًا</td>
+          <td class="p-3 text-gray-600 dark:text-gray-300">أسرع في الاستجابة</td>
+        </tr>
+        <tr class="border-t border-gray-200 dark:border-gray-700">
+          <td class="p-3 font-semibold text-gray-800 dark:text-gray-200">الدقة والاستقرار</td>
+          <td class="p-3 text-gray-600 dark:text-gray-300">أعلى دقة وثبات</td>
+          <td class="p-3 text-gray-600 dark:text-gray-300">سريع ولكن أقل دقة</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+      </div>
+
+      <!-- Usage-limits -->
+      <div id="usage-limits" class="mt-12">
+      <div class="text-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">
+          <i class="fa-solid fa-gauge-high text-blue-500"></i>
+          حدود الاستخدام
+        </h2>
+        <p class="text-gray-500 dark:text-gray-400 mt-1">تعرف على حدود الاستخدام اليومية والدقيقة.</p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+          <thead class="bg-gray-100 dark:bg-gray-800">
+            <tr class="text-right">
+              <th class="p-3 text-gray-700 dark:text-gray-300">الطراز</th>
+              <th class="p-3 text-gray-700 dark:text-gray-300">RPM</th>
+              <th class="p-3 text-gray-700 dark:text-gray-300">TPM</th>
+              <th class="p-3 text-gray-700 dark:text-gray-300">RPD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="p-3 font-semibold text-gray-800 dark:text-gray-200">الأفضل</td>
+              <td class="p-3 text-gray-600 dark:text-gray-300">5</td>
+              <td class="p-3 text-gray-600 dark:text-gray-300">250000</td>
+              <td class="p-3 text-gray-600 dark:text-gray-300">100</td>
+            </tr>
+            <tr class="border-t border-gray-200 dark:border-gray-700">
+              <td class="p-3 font-semibold text-gray-800 dark:text-gray-200">الأسرع</td>
+              <td class="p-3 text-gray-600 dark:text-gray-300">10</td>
+              <td class="p-3 text-gray-600 dark:text-gray-300">250000</td>
+              <td class="p-3 text-gray-600 dark:text-gray-300">250</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+  <!--  الرموز -->
+      <div class="mt-6 p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-300 space-y-2">
+        <p><span class="font-semibold">RPM:</span> الطلبات في الدقيقة</p>
+        <p><span class="font-semibold">TPM:</span> الرموز المميزة في الإدخال</p>
+        <p><span class="font-semibold">RPD:</span> الطلبات في اليوم</p>
+        <p class="text-green-700 dark:text-green-400 mt-2">
+          إذا واجهت مشكلة في <span class="font-semibold">TPM</span> جرب إزالة المواقف أو تقليل طول الإدخال.
+        </p>
+      </div>
+    </div>
+
+      <div class="mt-12 text-center">
+        <a href="index.html" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 text-lg">
           <i class="fa-solid fa-arrow-left ml-2"></i>
           العودة إلى المولّد
         </a>
@@ -100,9 +286,39 @@
     </p>
   </footer>
   
-  <script src="js\theme-toggle.js"></script>
+  <script src="js/theme-toggle.js"></script>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    const accordionToggles = document.querySelectorAll('.accordion-toggle');
+
+    accordionToggles.forEach(button => {
+        button.addEventListener('click', () => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+
+            accordionToggles.forEach(otherButton => {
+                if (otherButton !== button) {
+                    const otherContent = otherButton.nextElementSibling;
+                    const otherIcon = otherButton.querySelector('i');
+                    if (otherContent.style.maxHeight) {
+                        otherContent.style.maxHeight = null;
+                        otherIcon.classList.remove('rotate-180');
+                    }
+                }
+            });
+
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+                icon.classList.remove('rotate-180');
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                icon.classList.add('rotate-180');
+            }
+        });
+    });
   </script>
+
 </body>
+
 </html>

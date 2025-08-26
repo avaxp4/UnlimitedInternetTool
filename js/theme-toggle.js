@@ -16,7 +16,6 @@ function applyTheme(theme) {
     }
 }
 
-// Check for saved theme in localStorage or OS preference
 const savedTheme = localStorage.getItem('theme');
 const osPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -25,10 +24,9 @@ if (savedTheme) {
 } else if (osPrefersDark) {
     applyTheme('dark');
 } else {
-    applyTheme('light'); // Default to light
+    applyTheme('light'); 
 }
 
-// Add event listener to the button
 themeToggleBtn.addEventListener('click', () => {
     const isDark = document.documentElement.classList.contains('dark');
     applyTheme(isDark ? 'light' : 'dark');

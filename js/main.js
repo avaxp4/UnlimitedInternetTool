@@ -4,7 +4,7 @@ const apiKeyInput = document.getElementById("apiKey");
 const apiKeyToggle = document.getElementById("apiKeyToggle");
 const clearApiKeyBtn = document.getElementById("clearApiKeyBtn");
 const generateBtn = document.getElementById("generateBtn");
-const hashtagInput = document.getElementById("hashtagInput");
+const hashtagIuser = document.getElementById("hashtagInput");
 const postToneSelect = document.getElementById("postTone");
 const situationInput = document.getElementById("situation");
 const loader = document.getElementById("loader");
@@ -36,9 +36,9 @@ const newsContainer = document.getElementById("news-container");
 let postHistory = [];
 
 const tonePrompts = {
-  angry: " النبرة:  غاضبة ومنفعلة، كأنك على وشك الانفجار من الظلم والاستغلال بسبب انتهاء الباقة في وقت حرج.",
-  funny: "النبرة: ساخرة وكوميديا سوداء، اضحك على عبثية الموقف وكأنك تشكر الشركة على تعليمك معنى الصبر.",
-  persuasive: "النبرة: منطقية ومقنعة، استخدم سؤالاً بلاغياً أو حقيقة بسيطة لتوضيح كيف أن هذا الوضع يعيق أي تقدم."
+    angry: "النبرة: غاضبة وساخطة، تعكس شعورًا بالعجز والقهر. تخيل أنك وصلت إلى أقصى درجات التحمل وأن هذه التغريدة هي صرخة مكتومة.",
+    funny: "النبرة: كوميديا سوداء لاذعة. استخدم السخرية من النفس ومن الشركة ومن الموقف العبثي بأكمله. اضحك على المأساة كآلية دفاع.",
+    persuasive: "النبرة: عقلانية ولكن بلمسة عاطفية. خاطب العقل والمنطق من خلال تسليط الضوء على تأثير المشكلة على أبسط جوانب الحياة اليومية (عمل، دراسة، ترفيه)، مما يجعل أي شخص يتعاطف مع الموقف."
 };
 
 const fewShotExamples = [
@@ -47,26 +47,35 @@ const fewShotExamples = [
     `مثال ٣ (جملة طبيعية بدون تشبيه مباشر): الواحد بقى بيفتح أي فيديو على النت وهو بيدعي ربنا يخلصه قبل ما الباقة تخلّص عليه.`,
 ];
 
-function getBasePrompt(specificTonePrompt, situationInstruction, lengthInstruction) {
+function getBasePrompt(situationInstruction, lengthInstruction, selectedHashtag) {
   return `
-مهمتك: اكتب تغريدة واحدة فقط، تبدو كجملة واحدة طبيعية ومترابطة، من مواطن مصري يعاني من باقات الإنترنت المحدودة.
+أنت كاتب محتوى إبداعي وخبير في اللهجة العامية المصرية، متخصص في صياغة تغريدات قصيرة وبليغة.
 
- القواعد الأساسية:
-1.  جملة واحدة متدفقة: يجب أن يكون النص كأنه فكرة واحدة خرجت من شخص بشكل عفوي، وليس نقاطًا أو جملاً منفصلة.
-2.  دمج التشبيه: إذا استخدمت تشبيهًا، يجب أن يكون جزءًا لا يتجزأ من الجملة، وليس جملة منفصلة. نريدك أن تبتكر تشبيهات بليغة وغير متوقعة.
-3.  اللهجة: عامية مصرية صميمة.
-4.  ممنوعات: لا إيموجي، لا روابط، لا علامات تنصيص (""). تجنب تمامًا الكلمات الرسمية (حقوق، نطالب، تحسين).
-5.  أمثلة للأسلوب المطلوب (لا تقلدها حرفياً، افهم الروح):
-    - ${fewShotExamples.join('\n    - ')}
+مهمتك: كتابة تغريدة **واحدة فقط** تعبر عن معاناة مواطن مصري مع باقات الإنترنت المحدودة.
 
- المطلوب الآن (القيود):
+**شروط صارمة للإخراج:**
+
+1.  **الصياغة:** يجب أن تكون التغريدة **جملة واحدة طبيعية ومتدفقة**، كأنها فكرة عفوية خرجت دفعة واحدة. حتى لو كانت طويلة، يجب أن تكون مترابطة نحويًا كجملة واحدة.
+2.  **اللهجة:** عامية مصرية صميمة وأصيلة.
+3.  **الإبداع في التشبيه:** إذا استخدمت تشبيهًا، يجب أن يكون **مدمجًا بسلاسة** في نسيج الجملة. **تجنب التشبيهات المستهلكة** وابتكر شيئًا جديدًا ومدهشًا يربط الإنترنت بشيء غير متوقع من الحياة اليومية.
+4.  **الممنوعات:** ممنوع تمامًا استخدام: الإيموجي، علامات التنصيص ("")، الروابط، أو أي كلمات رسمية مثل (حقوق، نطالب، تحسين).
+
+**نماذج للروح والأسلوب المطلوب (للاستلهام فقط، لا تقلدها):**
+${fewShotExamples.map(e => `- ${e}`).join('\n')}
+
+---
+**التوجيهات المحددة لهذه المهمة:**
+
 ${specificTonePrompt}
 ${situationInstruction}
 ${lengthInstruction}
 
- الخاتمة:
-يجب أن ينتهي المنشور فقط وحصريًا بالهاشتاج في سطر جديد.
-  `;
+---
+**الصيغة النهائية للإخراج:**
+بعد كتابة التغريدة، أضف الهاشتاج التالي **في سطر جديد منفصل**، ولا شيء غيره.
+
+الهاشتاج المطلوب: ${selectedHashtag}
+`;
 }
 
 function getGenerationPrompt() {
@@ -75,7 +84,7 @@ function getGenerationPrompt() {
     alert("الرجاء اختيار أو كتابة هاشتاج!");
     throw new Error("Hashtag is missing.");
   }
-  let selectedTone = postToneSelect.value;
+  let selectedTone = postToneSelect;
   const userSituation = situationInput.value.trim();
   const selectedLength = postLengthSelect.value;
 
@@ -87,16 +96,16 @@ function getGenerationPrompt() {
 
   let situationInstruction = "";
   if (userSituation) {
-    situationInstruction = `الموقف: اجعل التغريدة تدور حول هذا الموقف: "${userSituation}".`;
+    situationInstruction = `الموقف المحدد: يجب أن تعكس التغريدة هذا الموقف أو يتمحور حوله: "${userSituation}".`;
   }
 
   let lengthInstruction = "";
   switch (selectedLength) {
     case 'short':
-      lengthInstruction = `الطول: قصير جداً. ركز على فكرة واحدة فقط في جملة خاطفة ومكثفة (حوالي 15 كلمة).`;
+      lengthInstruction = `الطول: قصير ومكثف جدًا (حوالي 10-15 كلمة). يجب أن تكون الفكرة سريعة ومباشرة.`;
       break;
     case 'long':
-      lengthInstruction = `الطول: طويل نسبياً (تغريدة توضيحية). يمكنك استخدام جملتين قصيرتين لربط فكرة أو تشبيه مركب (حوالي 40-50 كلمة).`;
+      lengthInstruction = `الطول: طويل نسبيًا (حوالي 40-50 كلمة). اكتب جملة واحدة أو عدة جمل مركبة وطويلة، قد تحتوي على أجزاء متعددة مربوطة بذكاء، لتشرح فكرة أو تشبيهًا معقدًا دون أن تفقد تدفقها.`;
       break;
     case 'specific':
       const wordCount = wordCountInput.value || 30;
@@ -104,12 +113,13 @@ function getGenerationPrompt() {
       break;
     case 'adaptive':
     default:
-      lengthInstruction = `الطول: متكيف. لك حرية اختيار الطول الأنسب للفكرة، مع الحفاظ عليه مناسباً لتويتر.`;
+      lengthInstruction = `الطول: متكيف. اختر الطول المثالي الذي يخدم الفكرة والنبرة بأفضل شكل ممكن ضمن حدود تويتر.`;
       break;
   }
-
-  const basePrompt = getBasePrompt(specificTonePrompt, situationInstruction, lengthInstruction);
-  return `${basePrompt}\n${selectedHashtag}`;
+  
+  const finalPrompt = getBasePrompt(situationInstruction, lengthInstruction, selectedHashtag);
+  
+  return finalPrompt;
 }
 
 function getImprovementPrompt(currentText, feedback) {
@@ -127,10 +137,10 @@ function getImprovementPrompt(currentText, feedback) {
 2.  أعد كتابة التغريدة بالكامل لتحقق طلبه. اجعلها أقوى، أكثر تأثيرًا، وأكثر طبيعية باللهجة العامية المصرية.
 3.  حافظ على نفس الهاشتاج الأصلي في نهاية التغريدة.
 4.  لا ترد بأي شيء سوى التغريدة المحسّنة والهاشتاج في سطر منفصل.
+5. يمكنك التعديل الكامل على التغريدة لتلبية طلب المستخدم، بما في ذلك تغيير التشبيهات أو الأسلوب.
   `;
 }
 
-// --- News Section Logic ---
 async function fetchAndRenderNews() {
     if (!newsContainer) return;
     try {
@@ -245,6 +255,7 @@ function renderHistory() {
 }
 
 // --- Main Application Logic ---
+
 async function callGenerativeAI(prompt) {
     const apiKey = apiKeyInput.value.trim();
     if (!apiKey) {
@@ -254,7 +265,6 @@ async function callGenerativeAI(prompt) {
     saveApiKey();
     const genAI = new GoogleGenerativeAI(apiKey);
     
-    //  Dynamically select model based on user choice
     const selectedModel = modelChoiceSelect.value;
     const modelName = selectedModel === 'flash' ? 'gemini-2.5-flash' : 'gemini-2.5-pro';
     
@@ -290,10 +300,10 @@ function displayError(error) {
     } else if (rawMessage.includes('failed to fetch')) {
         friendlyMessage = "فشل الاتصال بالخادم. يرجى التحقق من اتصالك والمحاولة مرة أخرى.";
     } else {
-        friendlyMessage = "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقًا. راجع صفحة الوثائق لمزيد من الحلول والمعرفة";
+        friendlyMessage = "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى لاحقًا. المشكلة غالبا في مفتاح ال API أو النموذج راجع صفحة الوثائق لمزيد من الحلول والمعرفة";
     }
 
-    const docsLink = `\n\nلمزيد من التفاصيل حول الأخطاء، شاهد <a href="docs.html" class="text-blue-500 underline">صفحة الوثائق</a>.`;
+    const docsLink = `\n\nلمزيد من التفاصيل حول الأخطاء، شاهد <a href="/docs.html" class="text-blue-500 underline">صفحة الوثائق</a>.`;
     resultDiv.innerHTML = `❌ حدث خطأ:<br><br>${friendlyMessage}${docsLink}`;
     resultDiv.classList.add('text-red-500', 'dark:text-red-400');
     resultWrapper.style.display = "block";

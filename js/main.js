@@ -4,7 +4,7 @@ const apiKeyInput = document.getElementById("apiKey");
 const apiKeyToggle = document.getElementById("apiKeyToggle");
 const clearApiKeyBtn = document.getElementById("clearApiKeyBtn");
 const generateBtn = document.getElementById("generateBtn");
-const hashtagIuser = document.getElementById("hashtagInput");
+const hashtagInput = document.getElementById("hashtagInput");
 const postToneSelect = document.getElementById("postTone");
 const situationInput = document.getElementById("situation");
 const loader = document.getElementById("loader");
@@ -47,7 +47,7 @@ const fewShotExamples = [
     `مثال ٣ (جملة طبيعية بدون تشبيه مباشر): الواحد بقى بيفتح أي فيديو على النت وهو بيدعي ربنا يخلصه قبل ما الباقة تخلّص عليه.`,
 ];
 
-function getBasePrompt(situationInstruction, lengthInstruction, selectedHashtag) {
+function getBasePrompt(specificTonePrompt, situationInstruction, lengthInstruction, selectedHashtag) {
   return `
 أنت كاتب محتوى إبداعي وخبير في اللهجة العامية المصرية، متخصص في صياغة تغريدات قصيرة وبليغة.
 
@@ -84,7 +84,7 @@ function getGenerationPrompt() {
     alert("الرجاء اختيار أو كتابة هاشتاج!");
     throw new Error("Hashtag is missing.");
   }
-  let selectedTone = postToneSelect;
+  let selectedTone = postToneSelect.value;
   const userSituation = situationInput.value.trim();
   const selectedLength = postLengthSelect.value;
 
@@ -96,16 +96,17 @@ function getGenerationPrompt() {
 
   let situationInstruction = "";
   if (userSituation) {
-    situationInstruction = `الموقف المحدد: يجب أن تعكس التغريدة هذا الموقف أو يتمحور حوله: "${userSituation}".`;
+    situationInstruction = `أو تتمحور حوله  يجب أن تعكس التغريدة هذا الموقف بدقة : "${userSituation}".`;
   }
 
   let lengthInstruction = "";
   switch (selectedLength) {
     case 'short':
-      lengthInstruction = `الطول: قصير ومكثف جدًا (حوالي 10-15 كلمة). يجب أن تكون الفكرة سريعة ومباشرة.`;
+      lengthInstruction = `الطول: قصير ومكثف جدًا (حوالي 10-15 كلمة). يجب أن تكون الفكرة مثل لكمة سريعة ومباشرة.`;
       break;
     case 'long':
-      lengthInstruction = `الطول: طويل نسبيًا (حوالي 40-50 كلمة). اكتب جملة واحدة أو عدة جمل مركبة وطويلة، قد تحتوي على أجزاء متعددة مربوطة بذكاء، لتشرح فكرة أو تشبيهًا معقدًا دون أن تفقد تدفقها.`;
+      // تم حل التعارض هنا
+      lengthInstruction = `الطول: طويل نسبيًا (حوالي 40-50 كلمة). اكتب جملة واحدة مركبة وطويلة أو جملتين، قد تحتوي على أجزاء متعددة مربوطة بذكاء، لتشرح فكرة أو تشبيهًا معقدًا دون أن تفقد تدفقها.`;
       break;
     case 'specific':
       const wordCount = wordCountInput.value || 30;
@@ -117,8 +118,10 @@ function getGenerationPrompt() {
       break;
   }
   
-  const finalPrompt = getBasePrompt(situationInstruction, lengthInstruction, selectedHashtag);
+  // نمرر الهاشتاج مباشرة إلى الدالة الأساسية
+  const finalPrompt = getBasePrompt(specificTonePrompt, situationInstruction, lengthInstruction, selectedHashtag);
   
+  // لا نضيف الهاشتاج هنا بعد الآن، فالبرومبت أصبح يحتوي على تعليمات إضافته
   return finalPrompt;
 }
 
@@ -185,6 +188,7 @@ function renderNews(campaignNews) {
 }
 
 // --- API & State Management ---
+
 function saveApiKey() {
     if(apiKeyInput.value) {
         localStorage.setItem('userApiKey', apiKeyInput.value);
@@ -229,7 +233,7 @@ function loadHistory() {
 function saveToHistory(postText) {
     if (!postText || postHistory.includes(postText)) return;
     postHistory.unshift(postText);
-    if (postHistory.length > 5) {
+    if (postHistory.length > 10) {
         postHistory.pop();
     }
     localStorage.setItem('postHistory', JSON.stringify(postHistory));
@@ -284,6 +288,7 @@ function displayResult(text) {
 }
 
 // User-friendly error handling
+
 function displayError(error) {
     console.error("API Error:", error);
     let friendlyMessage = "";
@@ -373,7 +378,6 @@ function closeImproveModal() {
     improveModal.classList.add('hidden');
     improveModal.classList.remove('flex');
 }
-
 
 // --- Event Listeners ---
 document.addEventListener('DOMContentLoaded', () => {
